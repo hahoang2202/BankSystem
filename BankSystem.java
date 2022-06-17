@@ -125,7 +125,7 @@ public class BankSystem extends JFrame implements ActionListener, ItemListener {
 	public BankSystem() {
 
 		// Tên chương trình
-		super("BankSystem by Java.");
+		super("BankSystem by Java :>");
 
 		UIManager.addPropertyChangeListener(new UISwitchListener((JComponent) getRootPane()));
 
