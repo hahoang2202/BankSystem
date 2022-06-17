@@ -60,7 +60,7 @@ class login extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == b1) {
 
-      if (t1.getText().equals("bank") && p1.getText().equals("bank")) {
+      if (t1.getText().equals("admin") && p1.getText().equals("admin")) {
         JOptionPane.showMessageDialog(null, "sucessfully login");
         login l = new login();
         dispose();
@@ -71,19 +71,19 @@ class login extends JFrame implements ActionListener {
 
         t1.requestFocus();
       }
-      if (!t1.getText().equals("bank") && !p1.getText().equals("bank")) {
+      if (!t1.getText().equals("admin") && !p1.getText().equals("admin")) {
         JOptionPane.showMessageDialog(null, "both filed are wrong", "Error", JOptionPane.ERROR_MESSAGE);
         t1.setText("");
         p1.setText("");
         t1.requestFocus();
       }
-      if (t1.getText().equals("bank") && !p1.getText().equals("bank")) {
+      if (t1.getText().equals("admin") && !p1.getText().equals("admin")) {
         JOptionPane.showMessageDialog(null, "password filed are wrong", "Error", JOptionPane.ERROR_MESSAGE);
         t1.setText("");
         p1.setText("");
         t1.requestFocus();
       }
-      if (!t1.getText().equals("bank") && p1.getText().equals("bank")) {
+      if (!t1.getText().equals("admin") && p1.getText().equals("admin")) {
         JOptionPane.showMessageDialog(null, "UserName filed are wrong", "Error", JOptionPane.ERROR_MESSAGE);
         t1.setText("");
         p1.setText("");

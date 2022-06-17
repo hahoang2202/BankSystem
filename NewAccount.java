@@ -17,19 +17,15 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 	private int rows = 0;
 	private int total = 0;
 
-	// String Type Array use to Load Records From File.
 	private String records[][] = new String[500][6];
 
-	// String Type Array use to Save Records into File.
 	private String saves[][] = new String[500][6];
 
 	private FileInputStream fis;
 	private DataInputStream dis;
 
 	NewAccount() {
-
-		// super(Title, Resizable, Closable, Maximizable, Iconifiable)
-		super("Create New Account", false, true, false, true);
+		super("Tạo tài khoản", false, true, false, true);
 		setSize(335, 235);
 
 		jpInfo.setBounds(0, 0, 500, 115);
@@ -41,10 +37,10 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 		lbName = new JLabel("Person Name:");
 		lbName.setForeground(Color.black);
 		lbName.setBounds(15, 55, 80, 25);
-		lbDate = new JLabel("Deposit Date:");
+		lbDate = new JLabel("Ngày tạo:");
 		lbDate.setForeground(Color.black);
 		lbDate.setBounds(15, 90, 80, 25);
-		lbDeposit = new JLabel("Dep. Amount:");
+		lbDeposit = new JLabel("Số dư:");
 		lbDeposit.setForeground(Color.black);
 		lbDeposit.setBounds(15, 125, 80, 25);
 
@@ -57,7 +53,6 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 		txtDeposit.setHorizontalAlignment(JTextField.RIGHT);
 		txtDeposit.setBounds(105, 125, 205, 25);
 
-		// Restricting The User Input to only Numerics in Numeric TextBoxes.
 		txtNo.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent ke) {
 				char c = ke.getKeyChar();
@@ -77,7 +72,6 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 			}
 		});
 
-		// Creating Date Option.
 		String Months[] = { "January", "February", "March", "April", "May", "June",
 				"July", "August", "September", "October", "November", "December" };
 		cboMonth = new JComboBox<>(Months);
@@ -92,12 +86,10 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 			cboYear.addItem(years);
 		}
 
-		// Aligning The Date Option Controls.
 		cboMonth.setBounds(105, 90, 92, 25);
 		cboDay.setBounds(202, 90, 43, 25);
 		cboYear.setBounds(250, 90, 60, 25);
 
-		// Aligning The Buttons.
 		btnSave = new JButton("Save");
 		btnSave.setBounds(20, 165, 120, 25);
 		btnSave.addActionListener(this);
@@ -105,7 +97,6 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 		btnCancel.setBounds(185, 165, 120, 25);
 		btnCancel.addActionListener(this);
 
-		// Adding the All the Controls to Panel.
 		jpInfo.add(lbNo);
 		jpInfo.add(txtNo);
 		jpInfo.add(lbName);
@@ -119,35 +110,32 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 		jpInfo.add(btnSave);
 		jpInfo.add(btnCancel);
 
-		// Adding Panel to Window.
 		getContentPane().add(jpInfo);
 
-		// In the End Showing the New Account Window.
 		setVisible(true);
 
 	}
 
-	// Function use By Buttons of Window to Perform Action as User Click Them.
 	public void actionPerformed(ActionEvent ae) {
 
 		Object obj = ae.getSource();
 
 		if (obj == btnSave) {
 			if (txtNo.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Id of Customer.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Id của khách hàng để tìm kiếm.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtNo.requestFocus();
 			} else if (txtName.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Name of Customer.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Name của khách hàng để tìm kiếm.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtName.requestFocus();
 			} else if (txtDeposit.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Deposit Amount.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp số dư của khách hàng để tìm kiếm.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtDeposit.requestFocus();
 			} else {
-				populateArray(); // Load All Existing Records in Memory.
-				findRec(); // Finding if Account No. Already Exist or Not.
+				populateArray();
+				findRec();
 			}
 		}
 		if (obj == btnCancel) {
@@ -158,13 +146,11 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to load all Records from File when Application Execute.
 	void populateArray() {
 
 		try {
 			fis = new FileInputStream("Bank.dat");
 			dis = new DataInputStream(fis);
-			// Loop to Populate the Array.
 			while (true) {
 				for (int i = 0; i < 6; i++) {
 					records[rows][i] = dis.readUTF();
@@ -185,16 +171,14 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Find Record by Matching the Contents of Records Array with ID
-	// TextBox.
 	void findRec() {
 
 		boolean found = false;
 		for (int x = 0; x < total; x++) {
 			if (records[x][0].equals(txtNo.getText())) {
 				found = true;
-				JOptionPane.showMessageDialog(this, "Account No. " + txtNo.getText() + " is Already Exist.",
-						"BankSystem - WrongNo", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Account No. " + txtNo.getText() + " đã tồn tại.",
+						"BankSystem - Error", JOptionPane.PLAIN_MESSAGE);
 				txtClear();
 				break;
 			}
@@ -205,7 +189,6 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to add new Element to Array.
 	void saveArray() {
 
 		saves[count][0] = txtNo.getText();
@@ -214,12 +197,11 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 		saves[count][3] = "" + cboDay.getSelectedItem();
 		saves[count][4] = "" + cboYear.getSelectedItem();
 		saves[count][5] = txtDeposit.getText();
-		saveFile(); // Save This Array to File.
+		saveFile();
 		count++;
 
 	}
 
-	// Function use to Save new Record to the File.
 	void saveFile() {
 
 		try {
@@ -231,19 +213,18 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 			dos.writeUTF(saves[count][3]);
 			dos.writeUTF(saves[count][4]);
 			dos.writeUTF(saves[count][5]);
-			JOptionPane.showMessageDialog(this, "The Record has been Saved Successfully",
+			JOptionPane.showMessageDialog(this, "Bản ghi đã được lưu",
 					"BankSystem - Record Saved", JOptionPane.PLAIN_MESSAGE);
 			txtClear();
 			dos.close();
 			fos.close();
 		} catch (IOException ioe) {
-			JOptionPane.showMessageDialog(this, "There are Some Problem with File",
+			JOptionPane.showMessageDialog(this, "Error",
 					"BankSystem - Problem", JOptionPane.PLAIN_MESSAGE);
 		}
 
 	}
 
-	// Function use to Clear all TextFields of Window.
 	void txtClear() {
 
 		txtNo.setText("");

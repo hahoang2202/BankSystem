@@ -12,20 +12,16 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 	private JTextField txtNo, txtName, txtDate, txtBal;
 	private JButton btnFind, btnCancel;
 
-	// private int count = 0;
 	private int rows = 0;
 	private int total = 0;
 
-	// String Type Array use to Load Records From File.
 	private String records[][] = new String[500][6];
 
 	private FileInputStream fis;
 	private DataInputStream dis;
 
 	FindAccount() {
-
-		// super(Title, Resizable, Closable, Maximizable, Iconifiable)
-		super("Search Customer [By No.]", false, true, false, true);
+		super("Tìm kiếm Customer [By No.]", false, true, false, true);
 		setSize(350, 235);
 
 		jpFind.setLayout(null);
@@ -36,10 +32,10 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 		lbName = new JLabel("Person Name:");
 		lbName.setForeground(Color.black);
 		lbName.setBounds(15, 55, 80, 25);
-		lbDate = new JLabel("Last Transaction:");
+		lbDate = new JLabel("Giao dịch cuối:");
 		lbDate.setForeground(Color.black);
 		lbDate.setBounds(15, 90, 100, 25);
-		lbBal = new JLabel("Balance:");
+		lbBal = new JLabel("Số dư:");
 		lbBal.setForeground(Color.black);
 		lbBal.setBounds(15, 125, 80, 25);
 
@@ -57,7 +53,6 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 		txtBal.setEnabled(false);
 		txtBal.setBounds(125, 125, 200, 25);
 
-		// Restricting The User Input to only Numerics.
 		txtNo.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent ke) {
 				char c = ke.getKeyChar();
@@ -68,7 +63,6 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 			}
 		});
 
-		// Aligning The Buttons.
 		btnFind = new JButton("Search");
 		btnFind.setBounds(20, 165, 120, 25);
 		btnFind.addActionListener(this);
@@ -76,7 +70,6 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 		btnCancel.setBounds(200, 165, 120, 25);
 		btnCancel.addActionListener(this);
 
-		// Adding the All the Controls to Panel.
 		jpFind.add(lbNo);
 		jpFind.add(txtNo);
 		jpFind.add(lbName);
@@ -88,30 +81,27 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 		jpFind.add(btnFind);
 		jpFind.add(btnCancel);
 
-		// Adding Panel to Window.
 		getContentPane().add(jpFind);
 
-		populateArray(); // Load All Existing Records in Memory.
+		populateArray();
 
-		// In the End Showing the New Account Window.
 		setVisible(true);
 
 	}
 
-	// Function use By Buttons of Window to Perform Action as User Click Them.
 	public void actionPerformed(ActionEvent ae) {
 
 		Object obj = ae.getSource();
 
 		if (obj == btnFind) {
 			if (txtNo.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Id of Customer to Search.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Id của khách hàng để tìm kiếm.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtNo.requestFocus();
 			} else {
 				rows = 0;
-				populateArray(); // Load All Existing Records in Memory.
-				findRec(); // Finding if Account No. Exist or Not.
+				populateArray();
+				findRec();
 			}
 		}
 		if (obj == btnCancel) {
@@ -122,13 +112,11 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to load all Records from File when Application Execute.
 	void populateArray() {
 
 		try {
 			fis = new FileInputStream("Bank.dat");
 			dis = new DataInputStream(fis);
-			// Loop to Populate the Array.
 			while (true) {
 				for (int i = 0; i < 6; i++) {
 					records[rows][i] = dis.readUTF();
@@ -138,8 +126,8 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 		} catch (Exception ex) {
 			total = rows;
 			if (total == 0) {
-				JOptionPane.showMessageDialog(null, "Records File is Empty.\nEnter Records First to Display.",
-						"BankSystem - EmptyFile", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Không có bản ghi.\nNhập Bản ghi trước để hiển thị.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				btnEnable();
 			} else {
 				try {
@@ -152,8 +140,6 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Find Record by Matching the Contents of Records Array with ID
-	// TextBox.
 	void findRec() {
 
 		boolean found = false;
@@ -165,14 +151,13 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 			}
 		}
 		if (found == false) {
-			JOptionPane.showMessageDialog(this, "Account No. " + txtNo.getText() + " doesn't Exist.",
-					"BankSystem - WrongNo", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Account No. " + txtNo.getText() + " không tồn tại.",
+					"BankSystem - Error", JOptionPane.PLAIN_MESSAGE);
 			txtClear();
 		}
 
 	}
 
-	// Function which display Record from Array onto the Form.
 	public void showRec(int intRec) {
 
 		txtNo.setText(records[intRec][0]);
@@ -182,7 +167,6 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Clear all TextFields of Window.
 	void txtClear() {
 
 		txtNo.setText("");
@@ -193,7 +177,6 @@ public class FindAccount extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Lock Controls of Window.
 	void btnEnable() {
 
 		txtNo.setEnabled(false);

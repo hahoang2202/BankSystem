@@ -16,16 +16,14 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 	private int rows = 0;
 	private int total = 0;
 
-	// String Type Array use to Load Records From File.
+	// Mảng 2 chiều để lưu trữ bản ghi dữ liệu.
 	private String records[][] = new String[500][6];
 
 	private FileInputStream fis;
 	private DataInputStream dis;
 
 	DeleteCustomer() {
-
-		// super(Title, Resizable, Closable, Maximizable, Iconifiable)
-		super("Delete Account Holder", false, true, false, true);
+		super("Xóa tài khoản", false, true, false, true);
 		setSize(350, 235);
 
 		jpDel.setLayout(null);
@@ -36,10 +34,10 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 		lbName = new JLabel("Person Name:");
 		lbName.setForeground(Color.black);
 		lbName.setBounds(15, 55, 90, 25);
-		lbDate = new JLabel("Last Transaction:");
+		lbDate = new JLabel("Giao dịch cuối:");
 		lbDate.setForeground(Color.black);
 		lbDate.setBounds(15, 90, 100, 25);
-		lbBal = new JLabel("Balance:");
+		lbBal = new JLabel("Số dư:");
 		lbBal.setForeground(Color.black);
 		lbBal.setBounds(15, 125, 80, 25);
 
@@ -57,7 +55,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 		txtBal.setHorizontalAlignment(JTextField.RIGHT);
 		txtBal.setBounds(125, 125, 200, 25);
 
-		// Aligning The Buttons.
+		// Căn chỉnh 2 nút.
 		btnDel = new JButton("Delete");
 		btnDel.setBounds(20, 165, 120, 25);
 		btnDel.addActionListener(this);
@@ -65,7 +63,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 		btnCancel.setBounds(200, 165, 120, 25);
 		btnCancel.addActionListener(this);
 
-		// Adding the All the Controls to Panel.
+		// Thêm các nút vào bảng điều khiển.
 		jpDel.add(lbNo);
 		jpDel.add(txtNo);
 		jpDel.add(lbName);
@@ -77,7 +75,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 		jpDel.add(btnDel);
 		jpDel.add(btnCancel);
 
-		// Restricting The User Input to only Numerics in Numeric TextBoxes.
+		// Hạn chế đầu vào của người dùng chỉ với các chữ số trong các văn bản dạng số.
 		txtNo.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent ke) {
 				char c = ke.getKeyChar();
@@ -87,7 +85,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 				}
 			}
 		});
-		// Checking the Accunt No. Provided By User on Lost Focus of the TextBox.
+		// Kiểm tra số tài khoản do người dùng cung cấp.
 		txtNo.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent e) {
 			}
@@ -96,34 +94,34 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 				if (txtNo.getText().equals("")) {
 				} else {
 					rows = 0;
-					populateArray(); // Load All Existing Records in Memory.
-					findRec(); // Finding if Account No. Already Exist or Not.
+					populateArray(); // Tải tất cả các bản ghi hiện có vào bộ nhớ.
+					findRec(); // Tìm tài khoản đã tồn tại hay chưa.
 				}
 			}
 		});
 
-		// Adding Panel to Window.
+		// Thêm bảng điều khiển vào cửa sổ.
 		getContentPane().add(jpDel);
 
-		populateArray(); // Load All Existing Records in Memory.
+		populateArray(); // Tải tất cả các bản ghi hiện có vào bộ nhớ.
 
-		// In the End Showing the New Account Window.
+		// Hiển thị Cửa sổ Tài khoản Mới.
 		setVisible(true);
 
 	}
 
-	// Function use By Buttons of Window to Perform Action as User Click Them.
+	// Thực hiện Hành động khi Người dùng nhấp vào Nút.
 	public void actionPerformed(ActionEvent ae) {
 
 		Object obj = ae.getSource();
 
 		if (obj == btnDel) {
 			if (txtNo.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Id of Customer.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Id của khách hàng.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtNo.requestFocus();
 			} else {
-				deletion(); // Confirm Deletion of Current Record.
+				deletion(); // Xác nhận Xóa Bản ghi Hiện tại.
 			}
 		}
 		if (obj == btnCancel) {
@@ -134,7 +132,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to load all Records from File when Application Execute.
+	// tải tất cả các Bản ghi từ Tệp.
 	void populateArray() {
 
 		try {
@@ -150,8 +148,8 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 		} catch (Exception ex) {
 			total = rows;
 			if (total == 0) {
-				JOptionPane.showMessageDialog(null, "Records File is Empty.\nEnter Records First to Display.",
-						"BankSystem - EmptyFile", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Không có bản ghi.\nNhập Bản ghi trước để hiển thị.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				btnEnable();
 			} else {
 				try {
@@ -164,8 +162,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Find Record by Matching the Contents of Records Array with ID
-	// TextBox.
+	// Tìm bản ghi bằng cách so sánh với các bản ghi có trong mảng
 	void findRec() {
 
 		boolean found = false;
@@ -179,13 +176,13 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 		if (found == false) {
 			String str = txtNo.getText();
 			txtClear();
-			JOptionPane.showMessageDialog(this, "Account No. " + str + " doesn't Exist.",
-					"BankSystem - WrongNo", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Account No. " + str + " không tồn tại.",
+					"BankSystem - Error", JOptionPane.PLAIN_MESSAGE);
 		}
 
 	}
 
-	// Function which display Record from Array onto the Form.
+	// hiển thị bản ghi.
 	void showRec(int intRec) {
 
 		txtNo.setText(records[intRec][0]);
@@ -196,17 +193,17 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Confirming the Deletion Decision made By User of Program.
+	// Xác nhận xóa
 	void deletion() {
 
 		try {
-			// Show a Confirmation Dialog.
 			int reply = JOptionPane.showConfirmDialog(this,
 					"Are you Sure you want to Delete\n" + txtName.getText() + " Record From BankSystem?",
 					"Bank System - Delete", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-			// Check the User Selection.
+
+			// kiểm tra lựa chọn.
 			if (reply == JOptionPane.YES_OPTION) {
-				delRec(); // Delete the Selected Contents of Array.
+				delRec();
 			} else if (reply == JOptionPane.NO_OPTION) {
 			}
 		}
@@ -216,7 +213,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Delete an Element from the Array.
+	// Hàm để xóa một phần tử khỏi mảng.
 	void delRec() {
 
 		try {
@@ -236,8 +233,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Save Records to File After Deleting the Record of User
-	// Choice.
+	// Lưu bản ghi vào tệp sau khi xóa bản ghi của người dùng chọn.
 	void deleteFile() {
 
 		try {
@@ -251,7 +247,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 							break;
 					}
 				}
-				JOptionPane.showMessageDialog(this, "Record has been Deleted Successfuly.",
+				JOptionPane.showMessageDialog(this, "Đã xóa bản ghi.",
 						"BankSystem - Record Deleted", JOptionPane.PLAIN_MESSAGE);
 				txtClear();
 			} else {
@@ -259,13 +255,13 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 			dos.close();
 			fos.close();
 		} catch (IOException ioe) {
-			JOptionPane.showMessageDialog(this, "There are Some Problem with File",
+			JOptionPane.showMessageDialog(this, "Error!!!",
 					"BankSystem - Problem", JOptionPane.PLAIN_MESSAGE);
 		}
 
 	}
 
-	// Function use to Clear all TextFields of Window.
+	// Xóa tất cả dữ liệu trong cửa sổ.
 	void txtClear() {
 
 		txtNo.setText("");
@@ -276,7 +272,7 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Lock Controls of Window.
+	// khóa cửa sổ điều khiển.
 	void btnEnable() {
 
 		txtNo.setEnabled(false);

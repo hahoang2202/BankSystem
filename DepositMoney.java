@@ -19,16 +19,14 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 	private int curr;
 	private int deposit;
 
-	// String Type Array use to Load Records From File.
+	// Mảng 2 chiều để lưu trữ bản ghi dữ liệu..
 	private String records[][] = new String[500][6];
 
 	private FileInputStream fis;
 	private DataInputStream dis;
 
 	DepositMoney() {
-
-		// super(Title, Resizable, Closable, Maximizable, Iconifiable)
-		super("Deposit Money", false, true, false, true);
+		super("Gửi tiền", false, true, false, true);
 		setSize(335, 235);
 
 		jpDep.setLayout(null);
@@ -39,10 +37,10 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 		lbName = new JLabel("Person Name:");
 		lbName.setForeground(Color.black);
 		lbName.setBounds(15, 55, 80, 25);
-		lbDate = new JLabel("Deposit Date:");
+		lbDate = new JLabel("Ngày gửi:");
 		lbDate.setForeground(Color.black);
 		lbDate.setBounds(15, 90, 80, 25);
-		lbDeposit = new JLabel("Dep. Amount:");
+		lbDeposit = new JLabel("Số tiền:");
 		lbDeposit.setForeground(Color.black);
 		lbDeposit.setBounds(15, 125, 80, 25);
 
@@ -56,7 +54,7 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 		txtDeposit.setHorizontalAlignment(JTextField.RIGHT);
 		txtDeposit.setBounds(105, 125, 205, 25);
 
-		// Creating Date Option.
+		// Tạo mục ngày.
 		String Months[] = { "January", "February", "March", "April", "May", "June",
 				"July", "August", "September", "October", "November", "December" };
 		cboMonth = new JComboBox<>(Months);
@@ -71,12 +69,12 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 			cboYear.addItem(years);
 		}
 
-		// Aligning The Date Option Controls.
+		// Đặt vị trí cho nút.
 		cboMonth.setBounds(105, 90, 92, 25);
 		cboDay.setBounds(202, 90, 43, 25);
 		cboYear.setBounds(250, 90, 60, 25);
 
-		// Aligning The Buttons.
+		// Tạo nút.
 		btnSave = new JButton("Save");
 		btnSave.setBounds(20, 165, 120, 25);
 		btnSave.addActionListener(this);
@@ -84,7 +82,7 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 		btnCancel.setBounds(185, 165, 120, 25);
 		btnCancel.addActionListener(this);
 
-		// Restricting The User Input to only Numerics in Numeric TextBoxes.
+		// Hạn chế đầu vào của người dùng chỉ với các chữ số trong các văn bản dạng số.
 		txtNo.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent ke) {
 				char c = ke.getKeyChar();
@@ -103,7 +101,7 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 				}
 			}
 		});
-		// Checking the Accunt No. Provided By User on Lost Focus of the TextBox.
+		// Kiểm tra số tài khoản do người dùng cung cấp.
 		txtNo.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent e) {
 			}
@@ -112,13 +110,13 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 				if (txtNo.getText().equals("")) {
 				} else {
 					rows = 0;
-					populateArray(); // Load All Existing Records in Memory.
-					findRec(); // Finding if Account No. Already Exist or Not.
+					populateArray();
+					findRec();
 				}
 			}
 		});
 
-		// Adding the All the Controls to Panel.
+		// Thêm các nút điều khiển.
 		jpDep.add(lbNo);
 		jpDep.add(txtNo);
 		jpDep.add(lbName);
@@ -132,32 +130,31 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 		jpDep.add(btnSave);
 		jpDep.add(btnCancel);
 
-		// Adding Panel to Window.
+		// Thêm bảng điều khiển vào cửa sổ.
 		getContentPane().add(jpDep);
 
-		populateArray(); // Load All Existing Records in Memory.
+		populateArray();
 
-		// In the End Showing the New Account Window.
 		setVisible(true);
 
 	}
 
-	// Function use By Buttons of Window to Perform Action as User Click Them.
+	// Thực hiện Hành động khi Người dùng nhấp vào Nút.
 	public void actionPerformed(ActionEvent ae) {
 
 		Object obj = ae.getSource();
 
 		if (obj == btnSave) {
 			if (txtNo.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Id of Customer.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Id của khách hàng.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtNo.requestFocus();
 			} else if (txtDeposit.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Deposit Amount.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp số tiền của khách hàng",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtDeposit.requestFocus();
 			} else {
-				editRec(); // Update the Contents of Array.
+				editRec(); // Cập nhật vào bản ghi.
 			}
 		}
 		if (obj == btnCancel) {
@@ -168,13 +165,11 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to load all Records from File when Application Execute.
 	void populateArray() {
 
 		try {
 			fis = new FileInputStream("Bank.dat");
 			dis = new DataInputStream(fis);
-			// Loop to Populate the Array.
 			while (true) {
 				for (int i = 0; i < 6; i++) {
 					records[rows][i] = dis.readUTF();
@@ -184,8 +179,8 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 		} catch (Exception ex) {
 			total = rows;
 			if (total == 0) {
-				JOptionPane.showMessageDialog(null, "Records File is Empty.\nEnter Records First to Display.",
-						"BankSystem - EmptyFile", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Không có bản ghi.\nNhập Bản ghi trước để hiển thị.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				btnEnable();
 			} else {
 				try {
@@ -198,8 +193,7 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Find Record by Matching the Contents of Records Array with ID
-	// TextBox.
+	// Tìm bản ghi bằng cách so sánh với các bản ghi có trong mảng
 	void findRec() {
 
 		boolean found = false;
@@ -213,13 +207,13 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 		if (found == false) {
 			String str = txtNo.getText();
 			txtClear();
-			JOptionPane.showMessageDialog(this, "Account No. " + str + " doesn't Exist.",
-					"BankSystem - WrongNo", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Account No. " + str + " không tồn tại.",
+					"BankSystem - Error", JOptionPane.PLAIN_MESSAGE);
 		}
 
 	}
 
-	// Function which display Record from Array onto the Form.
+	// Hiển thị bản ghi.
 	public void showRec(int intRec) {
 
 		txtNo.setText(records[intRec][0]);
@@ -229,7 +223,7 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Clear all TextFields of Window.
+	// Xác nhận xóa
 	void txtClear() {
 
 		txtNo.setText("");
@@ -239,7 +233,7 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Edit an Element's Value of the Array.
+	// Chỉnh sửa giá trị phần tử của mảng.
 	public void editRec() {
 
 		deposit = Integer.parseInt(txtDeposit.getText());
@@ -249,11 +243,11 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 		records[recCount][3] = "" + cboDay.getSelectedItem();
 		records[recCount][4] = "" + cboYear.getSelectedItem();
 		records[recCount][5] = "" + (curr + deposit);
-		editFile(); // Save This Array to File.
+		editFile(); // Lưu lại.
 
 	}
 
-	// Function use to Save Records to File After editing the Record of User Choice.
+	// Lưu bản ghi vào tệp sau khi sửa bản ghi của người dùng chọn.
 	public void editFile() {
 
 		try {
@@ -267,20 +261,20 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 							break;
 					}
 				}
-				JOptionPane.showMessageDialog(this, "The File is Updated Successfully",
+				JOptionPane.showMessageDialog(this, "Đã cập nhật",
 						"BankSystem - Record Saved", JOptionPane.PLAIN_MESSAGE);
 				txtClear();
 				dos.close();
 				fos.close();
 			}
 		} catch (IOException ioe) {
-			JOptionPane.showMessageDialog(this, "There are Some Problem with File",
+			JOptionPane.showMessageDialog(this, "Error!!!",
 					"BankSystem - Problem", JOptionPane.PLAIN_MESSAGE);
 		}
 
 	}
 
-	// Function use to Lock all Buttons of Window.
+	// khóa cửa sổ điều khiển.
 	void btnEnable() {
 
 		txtNo.setEnabled(false);

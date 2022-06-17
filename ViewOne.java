@@ -16,16 +16,13 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 	private int rows = 0;
 	private int total = 0;
 
-	// String Type Array use to Load Records From File.
 	private String records[][] = new String[500][6];
 
 	private FileInputStream fis;
 	private DataInputStream dis;
 
 	ViewOne() {
-
-		// super(Title, Resizable, Closable, Maximizable, Iconifiable)
-		super("View Account Holders", false, true, false, true);
+		super("Xem tài khoản", false, true, false, true);
 		setSize(350, 235);
 
 		jpRec.setLayout(null);
@@ -36,10 +33,10 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 		lbName = new JLabel("Person Name:");
 		lbName.setForeground(Color.black);
 		lbName.setBounds(15, 55, 80, 25);
-		lbDate = new JLabel("Last Transaction:");
+		lbDate = new JLabel("Giao dịch cuối:");
 		lbDate.setForeground(Color.black);
 		lbDate.setBounds(15, 90, 100, 25);
-		lbBal = new JLabel("Balance:");
+		lbBal = new JLabel("Số dư:");
 		lbBal.setForeground(Color.black);
 		lbBal.setBounds(15, 125, 80, 25);
 
@@ -58,7 +55,6 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 		txtBal.setEnabled(false);
 		txtBal.setBounds(125, 125, 200, 25);
 
-		// Aligninig The Navigation Buttons.
 		btnFirst = new JButton("<<");
 		btnFirst.setBounds(15, 165, 50, 25);
 		btnFirst.addActionListener(this);
@@ -76,7 +72,6 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 		txtRec.setHorizontalAlignment(JTextField.CENTER);
 		txtRec.setBounds(115, 165, 109, 25);
 
-		// Adding the All the Controls to Panel.
 		jpRec.add(lbNo);
 		jpRec.add(txtNo);
 		jpRec.add(lbName);
@@ -91,19 +86,15 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 		jpRec.add(btnLast);
 		jpRec.add(txtRec);
 
-		// Adding Panel to Window.
 		getContentPane().add(jpRec);
 
-		// Load All Existing Records in Memory and Display them on Form.
 		populateArray();
 		showRec(0);
 
-		// In the End Showing the New Account Window.
 		setVisible(true);
 
 	}
 
-	// Function use By Buttons of Window to Perform Action as User Click Them.
 	public void actionPerformed(ActionEvent ae) {
 
 		Object obj = ae.getSource();
@@ -116,7 +107,7 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 			if (recCount < 0) {
 				recCount = 0;
 				showRec(recCount);
-				JOptionPane.showMessageDialog(this, "You are on First Record.",
+				JOptionPane.showMessageDialog(this, "Bản ghi đầu tiên.",
 						"BankSystem - 1st Record", JOptionPane.PLAIN_MESSAGE);
 			} else {
 				showRec(recCount);
@@ -126,7 +117,7 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 			if (recCount == total) {
 				recCount = total - 1;
 				showRec(recCount);
-				JOptionPane.showMessageDialog(this, "You are on Last Record.",
+				JOptionPane.showMessageDialog(this, "Bản ghi cuối cùng.",
 						"BankSystem - End of Records", JOptionPane.PLAIN_MESSAGE);
 			} else {
 				showRec(recCount);
@@ -138,13 +129,11 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to load all Records from File when Application Execute.
 	void populateArray() {
 
 		try {
 			fis = new FileInputStream("Bank.dat");
 			dis = new DataInputStream(fis);
-			// Loop to Populate the Array.
 			while (true) {
 				for (int i = 0; i < 6; i++) {
 					records[rows][i] = dis.readUTF();
@@ -154,8 +143,8 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 		} catch (Exception ex) {
 			total = rows;
 			if (total == 0) {
-				JOptionPane.showMessageDialog(null, "Records File is Empty.\nEnter Records First to Display.",
-						"BankSystem - EmptyFile", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Không có bản ghi.\nNhập Bản ghi trước để hiển thị.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				btnEnable();
 			} else {
 				try {
@@ -168,7 +157,6 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function which display Record from Array onto the Form.
 	public void showRec(int intRec) {
 
 		txtNo.setText(records[intRec][0]);
@@ -176,15 +164,14 @@ public class ViewOne extends JInternalFrame implements ActionListener {
 		txtDate.setText(records[intRec][2] + ", " + records[intRec][3] + ", " + records[intRec][4]);
 		txtBal.setText(records[intRec][5]);
 		if (total == 0) {
-			txtRec.setText(intRec + "/" + total); // Showing Record No. and Total Records.
+			txtRec.setText(intRec + "/" + total);
 			txtDate.setText("");
 		} else {
-			txtRec.setText((intRec + 1) + "/" + total); // Showing Record No. and Total Records.
+			txtRec.setText((intRec + 1) + "/" + total);
 		}
 
 	}
 
-	// Function use to Lock all Buttons of Window.
 	void btnEnable() {
 
 		btnFirst.setEnabled(false);

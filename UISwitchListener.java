@@ -3,10 +3,6 @@ package BankSystem;
 import java.beans.*;
 import javax.swing.*;
 
-/**
- * This class listens for UISwitches, and updates a given component.
- * 
- */
 public class UISwitchListener implements PropertyChangeListener {
     JComponent componentToSwitch;
 

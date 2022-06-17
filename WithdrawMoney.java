@@ -19,7 +19,6 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 	private int curr;
 	private int withdraw;
 
-	// String Type Array use to Load Records From File.
 	private String records[][] = new String[500][6];
 
 	private FileInputStream fis;
@@ -27,8 +26,7 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 
 	WithdrawMoney() {
 
-		// super(Title, Resizable, Closable, Maximizable, Iconifiable)
-		super("Withdraw Money", false, true, false, true);
+		super("Rút tiền", false, true, false, true);
 		setSize(335, 235);
 
 		jpWith.setLayout(null);
@@ -48,7 +46,7 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 
 		txtNo = new JTextField();
 		txtNo.setHorizontalAlignment(JTextField.RIGHT);
-		// Checking the Accunt No. Provided By User on Lost Focus of the TextBox.
+
 		txtNo.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent e) {
 			}
@@ -57,8 +55,8 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 				if (txtNo.getText().equals("")) {
 				} else {
 					rows = 0;
-					populateArray(); // Load All Existing Records in Memory.
-					findRec(); // Finding if Account No. Already Exist or Not.
+					populateArray();
+					findRec();
 				}
 			}
 		});
@@ -71,7 +69,6 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 		txtWithdraw.setHorizontalAlignment(JTextField.RIGHT);
 		txtWithdraw.setBounds(105, 125, 205, 25);
 
-		// Restricting The User Input to only Numerics in Numeric TextBoxes.
 		txtNo.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent ke) {
 				char c = ke.getKeyChar();
@@ -91,7 +88,6 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 			}
 		});
 
-		// Creating Date Option.
 		String Months[] = { "January", "February", "March", "April", "May", "June",
 				"July", "August", "September", "October", "November", "December" };
 		cboMonth = new JComboBox<>(Months);
@@ -106,12 +102,10 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 			cboYear.addItem(years);
 		}
 
-		// Aligning The Date Option Controls.
 		cboMonth.setBounds(105, 90, 92, 25);
 		cboDay.setBounds(202, 90, 43, 25);
 		cboYear.setBounds(250, 90, 60, 25);
 
-		// Aligning The Buttons.
 		btnSave = new JButton("Save");
 		btnSave.setBounds(20, 165, 120, 25);
 		btnSave.addActionListener(this);
@@ -119,7 +113,6 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 		btnCancel.setBounds(185, 165, 120, 25);
 		btnCancel.addActionListener(this);
 
-		// Adding the All the Controls to Panel.
 		jpWith.add(lbNo);
 		jpWith.add(txtNo);
 		jpWith.add(lbName);
@@ -133,43 +126,40 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 		jpWith.add(btnSave);
 		jpWith.add(btnCancel);
 
-		// Adding Panel to Window.
 		getContentPane().add(jpWith);
 
-		populateArray(); // Load All Existing Records in Memory.
+		populateArray();
 
-		// In the End Showing the New Account Window.
 		setVisible(true);
 
 	}
 
-	// Function use By Buttons of Window to Perform Action as User Click Them.
 	public void actionPerformed(ActionEvent ae) {
 
 		Object obj = ae.getSource();
 
 		if (obj == btnSave) {
 			if (txtNo.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Id of Customer.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Id của khách hàng để tìm kiếm.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtNo.requestFocus();
 			} else if (txtWithdraw.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Please! Provide Withdraw Amount.",
-						"BankSystem - EmptyField", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp số tiền rút",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtWithdraw.requestFocus();
 			} else {
 				withdraw = Integer.parseInt(txtWithdraw.getText());
 				if (curr == 0) {
-					JOptionPane.showMessageDialog(this, txtName.getText() + " doesn't have any Amount in Balance.",
+					JOptionPane.showMessageDialog(this, txtName.getText() + " không đủ số dư.",
 							"BankSystem - EmptyAccount", JOptionPane.PLAIN_MESSAGE);
 					txtClear();
 				} else if (withdraw > curr) {
-					JOptionPane.showMessageDialog(this, "Withdraw Amount can't greater than Actual Balance.",
+					JOptionPane.showMessageDialog(this, "Số tiền rút tiền không được lớn hơn số dư.",
 							"BankSystem - Large Amount", JOptionPane.PLAIN_MESSAGE);
 					txtWithdraw.setText("");
 					txtWithdraw.requestFocus();
 				} else {
-					editRec(); // Update the Contents of Array.
+					editRec();
 				}
 			}
 		}
@@ -181,13 +171,11 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to load all Records from File when Application Execute.
 	void populateArray() {
 
 		try {
 			fis = new FileInputStream("Bank.dat");
 			dis = new DataInputStream(fis);
-			// Loop to Populate the Array.
 			while (true) {
 				for (int i = 0; i < 6; i++) {
 					records[rows][i] = dis.readUTF();
@@ -197,8 +185,8 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 		} catch (Exception ex) {
 			total = rows;
 			if (total == 0) {
-				JOptionPane.showMessageDialog(null, "Records File is Empty.\nEnter Records First to Display.",
-						"BankSystem - EmptyFile", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Không có bản ghi.\nNhập Bản ghi trước để hiển thị.",
+						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				btnEnable();
 			} else {
 				try {
@@ -211,8 +199,6 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Find Record by Matching the Contents of Records Array with ID
-	// TextBox.
 	void findRec() {
 
 		boolean found = false;
@@ -226,13 +212,12 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 		if (found == false) {
 			String str = txtNo.getText();
 			txtClear();
-			JOptionPane.showMessageDialog(this, "Account No. " + str + " doesn't Exist.",
-					"BankSystem - WrongNo", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Account No. " + str + " không tồn tại.",
+					"BankSystem - Error", JOptionPane.PLAIN_MESSAGE);
 		}
 
 	}
 
-	// Function which display Record from Array onto the Form.
 	public void showRec(int intRec) {
 
 		txtNo.setText(records[intRec][0]);
@@ -242,7 +227,6 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Clear all TextFields of Window.
 	void txtClear() {
 
 		txtNo.setText("");
@@ -252,7 +236,6 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 
 	}
 
-	// Function use to Edit an Element's Value of the Array.
 	public void editRec() {
 
 		records[recCount][0] = txtNo.getText();
@@ -261,11 +244,10 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 		records[recCount][3] = "" + cboDay.getSelectedItem();
 		records[recCount][4] = "" + cboYear.getSelectedItem();
 		records[recCount][5] = "" + (curr - withdraw);
-		editFile(); // Save This Array to File.
+		editFile();
 
 	}
 
-	// Function use to Save Records to File After editing the Record of User Choice.
 	public void editFile() {
 
 		try {
@@ -279,20 +261,19 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 							break;
 					}
 				}
-				JOptionPane.showMessageDialog(this, "The File is Updated Successfully",
+				JOptionPane.showMessageDialog(this, "Bản ghi đã cập nhật",
 						"BankSystem - Record Saved", JOptionPane.PLAIN_MESSAGE);
 				txtClear();
 				dos.close();
 				fos.close();
 			}
 		} catch (IOException ioe) {
-			JOptionPane.showMessageDialog(this, "There are Some Problem with File",
+			JOptionPane.showMessageDialog(this, "Error!!!",
 					"BankSystem - Problem", JOptionPane.PLAIN_MESSAGE);
 		}
 
 	}
 
-	// Function use to Lock all Buttons of Window.
 	void btnEnable() {
 
 		txtNo.setEnabled(false);
