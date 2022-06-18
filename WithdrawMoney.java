@@ -142,7 +142,7 @@ public class WithdrawMoney extends JInternalFrame implements ActionListener {
 			if (txtNo.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Id của khách hàng để tìm kiếm.",
 						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
-				txtNo.requestFocus();
+				txtNo.requestFocus();//ưu tiên thứ tự
 			} else if (txtWithdraw.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp số tiền rút",
 						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);

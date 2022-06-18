@@ -85,7 +85,7 @@ public class DepositMoney extends JInternalFrame implements ActionListener {
 		// Hạn chế đầu vào của người dùng chỉ với các chữ số trong các văn bản dạng số.
 		txtNo.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent ke) {
-				char c = ke.getKeyChar();
+				char c = ke.getKeyChar();// Unic.
 				if (!((Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE)))) {
 					getToolkit().beep();
 					ke.consume();

@@ -190,7 +190,6 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 		txtDate.setText(records[intRec][2] + ", " + records[intRec][3] + ", " + records[intRec][4]);
 		txtBal.setText(records[intRec][5]);
 		recCount = intRec;
-
 	}
 
 	// Xác nhận xóa
@@ -200,7 +199,6 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 			int reply = JOptionPane.showConfirmDialog(this,
 					"Are you Sure you want to Delete\n" + txtName.getText() + " Record From BankSystem?",
 					"Bank System - Delete", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-
 			// kiểm tra lựa chọn.
 			if (reply == JOptionPane.YES_OPTION) {
 				delRec();
@@ -215,7 +213,6 @@ public class DeleteCustomer extends JInternalFrame implements ActionListener {
 
 	// Hàm để xóa một phần tử khỏi mảng.
 	void delRec() {
-
 		try {
 			if (records != null) {
 				for (int i = recCount; i < total; i++) {

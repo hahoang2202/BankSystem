@@ -61,7 +61,7 @@ public class BankSystem extends JFrame implements ActionListener, ItemListener {
 	/**
 	 *
 	 */
-	private static final int CTRL_MASK = Event.CTRL_MASK;
+	private static final int CTRL_MASK = Event.CTRL_MASK;// phím Điều khiển không hoạt động khi sự kiện xảy ra.
 
 	// Giao diện chính.
 	private JDesktopPane desktop = new JDesktopPane();
@@ -597,7 +597,6 @@ public class BankSystem extends JFrame implements ActionListener, ItemListener {
 	}
 
 	// Tải tất cả bản ghi vào Database
-
 	boolean populateArray() {
 
 		boolean b = false;

@@ -122,15 +122,15 @@ public class NewAccount extends JInternalFrame implements ActionListener {
 
 		if (obj == btnSave) {
 			if (txtNo.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Id của khách hàng để tìm kiếm.",
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Id của khách hàng để tạo.",
 						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtNo.requestFocus();
 			} else if (txtName.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Name của khách hàng để tìm kiếm.",
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp Name của khách hàng để tạo.",
 						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtName.requestFocus();
 			} else if (txtDeposit.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp số dư của khách hàng để tìm kiếm.",
+				JOptionPane.showMessageDialog(this, "Vui lòng cung cấp số dư của khách hàng để tạo.",
 						"BankSystem - Empty", JOptionPane.PLAIN_MESSAGE);
 				txtDeposit.requestFocus();
 			} else {
